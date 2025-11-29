@@ -20,4 +20,8 @@ impl<T> Box<T> {
 
         Box { ptr: raw_ptr }
     }
+
+    pub fn as_ref(&self) -> &T {
+        unsafe { &*self.ptr.as_ptr() }
+    }
 }
