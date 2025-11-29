@@ -1,9 +1,13 @@
-use std::ptr::{self, NonNull};
-use std::alloc::{alloc, dealloc, Layout, handle_alloc_error};
 use core::ops::Drop;
+use std::alloc::{Layout, alloc, dealloc, handle_alloc_error};
+use std::ptr::{self, NonNull};
+
+// TODO: Implement Deref trait
+// TODO: implement DerefMut trait
+// TODO: implement and use custom allocator
 
 pub struct Box<T> {
-    ptr: NonNull<T>
+    ptr: NonNull<T>,
 }
 
 impl<T> Box<T> {
@@ -29,6 +33,9 @@ impl<T> Box<T> {
     pub fn as_mut(&mut self) -> &mut T {
         unsafe { &mut *self.ptr.as_ptr() }
     }
+
+    // TODO: add into_raw() method
+    // TODO: add from raw() method
 }
 
 impl<T> Drop for Box<T> {
