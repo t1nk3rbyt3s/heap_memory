@@ -1,5 +1,6 @@
 use std::ptr::{self, NonNull};
 use std::alloc::{alloc, dealloc, Layout, handle_alloc_error};
+use core::ops::Drop;
 
 pub struct Box<T> {
     ptr: NonNull<T>
@@ -27,5 +28,16 @@ impl<T> Box<T> {
 
     pub fn as_mut(&mut self) -> &mut T {
         unsafe { &mut *self.ptr.as_ptr() }
+    }
+}
+
+impl<T> Drop for Box<T> {
+    fn drop(&mut self) {
+        let layout = Layout::new::<T>();
+
+        unsafe {
+            ptr::drop_in_place(self.ptr.as_ptr());
+            dealloc(self.ptr.as_ptr() as *mut u8, layout);
+        }
     }
 }
