@@ -24,4 +24,8 @@ impl<T> Box<T> {
     pub fn as_ref(&self) -> &T {
         unsafe { &*self.ptr.as_ptr() }
     }
+
+    pub fn as_mut(&mut self) -> &mut T {
+        unsafe { &mut *self.ptr.as_ptr() }
+    }
 }
