@@ -1,6 +1,7 @@
 use core::ops::Drop;
 use std::alloc::{Layout, alloc, dealloc, handle_alloc_error};
 use std::ptr::{self, NonNull};
+use std::ops::{Deref, DerefMut};
 
 // TODO: Implement Deref trait
 // TODO: implement DerefMut trait
@@ -36,6 +37,20 @@ impl<T> Box<T> {
 
     // TODO: add into_raw() method
     // TODO: add from raw() method
+}
+
+impl<T> Deref for Box<T> {
+    type Target = T;
+
+    fn deref(&self) -> &Self::Target {
+        unsafe { &*self.ptr.as_ptr() }
+    }
+}
+
+impl<T> DerefMut for Box<T> {
+    fn deref_mut(&mut self) -> &mut Self::Target {
+        unsafe { &mut *self.ptr.as_ptr() }
+    }
 }
 
 impl<T> Drop for Box<T> {
