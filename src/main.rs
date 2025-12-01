@@ -6,4 +6,7 @@ fn main() {
 
     b.push_str("friend");
     println!("{}", *b);
+
+    let p = b.into_raw();
+    println!("{:p}", p);
 }

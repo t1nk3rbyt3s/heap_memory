@@ -3,8 +3,6 @@ use std::alloc::{Layout, alloc, dealloc, handle_alloc_error};
 use std::ptr::{self, NonNull};
 use std::ops::{Deref, DerefMut};
 
-// TODO: Implement Deref trait
-// TODO: implement DerefMut trait
 // TODO: implement and use custom allocator
 
 pub struct Box<T> {
@@ -33,6 +31,13 @@ impl<T> Box<T> {
 
     pub fn as_mut(&mut self) -> &mut T {
         unsafe { &mut *self.ptr.as_ptr() }
+    }
+
+    pub fn into_raw(self) -> *mut T {
+        let ptr = self.ptr.as_ptr();
+        std::mem::forget(self);
+
+        ptr
     }
 
     // TODO: add into_raw() method
